@@ -1,0 +1,74 @@
+﻿<Window x:Class="_1135_15092025_NVE.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_1135_15092025_NVE"
+        xmlns:vm="clr-namespace:_1135_15092025_NVE.VM"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"
+        DataContext="{DynamicResource vm}">
+    <Window.Resources>
+        <vm:MainWindowVM x:Key="vm"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Menu>
+            <MenuItem Header="Спортсмены" Command=""/>
+        </Menu>
+
+        <ListView Grid.Row="1" ItemsSource="{Binding Workouts}" SelectedItem="{Binding SelectedWorkout}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Название" DisplayMemberBinding="{Binding Title}"/>
+                    <GridViewColumn Header="Дата" DisplayMemberBinding="{Binding DateTime, StringFormat=dd.MM.yyyy}"/>
+                    <GridViewColumn Header="Время" DisplayMemberBinding="{Binding DateTime, StringFormat=mm:hh}"/>
+                    <GridViewColumn Header="Длительность" DisplayMemberBinding="{Binding Duration, StringFormat={}{0} минут}"/>
+                    <GridViewColumn Header="Тип" DisplayMemberBinding="{Binding Type}"/>
+                </GridView>
+            </ListView.View>
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Удалить" Command="{Binding Delete}"/>
+                </ContextMenu>
+            </ListView.ContextMenu>
+        </ListView>
+
+        <StackPanel Grid.Column="1" Grid.Row="1">
+            <Label Content="Название тренировки"/>
+            <TextBox Text="{Binding SelectedWorkout.Title}"/>
+            <Label Content="Дата тренировки"/>
+            <DatePicker SelectedDate="{Binding SelectedWorkout.DateTime}"/>
+            <Label Content="Время тренировки"/>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <Style TargetType="TextBox">
+                        <Setter Property="MinWidth" Value="30"/>
+                        <Setter Property="Margin" Value="3 0 3 0"/>
+                    </Style>
+                </StackPanel.Resources>
+                <TextBox Text="{Binding Hours}"/>
+                <TextBlock Text=":"/>
+                <TextBox Text="{Binding Minutes}"/>
+            </StackPanel>
+            <Label Content="Длительность тренировки в минутах"/>
+            <TextBox Text="{Binding SelectedWorkout.Duration}" Width="50" HorizontalAlignment="Left" Margin="3 0 0 0"/>
+            <Label Content="Тип тренировки"/>
+            <ComboBox ItemsSource="{Binding Types}" SelectedItem="{Binding SelectedWorkout.Type}"/>
+            <Button Content="Добавить" Command="{Binding Add}"/>
+            <Button Content="Удалить" Command="{Binding Delete}"/>
+            
+            
+        </StackPanel>
+
+        <Button Grid.Column="1" Content="Очистить" Command="{Binding Clear}" HorizontalAlignment="Left"/>
+
+    </Grid>
+</Window>
