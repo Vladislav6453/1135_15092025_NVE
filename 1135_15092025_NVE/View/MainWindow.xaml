@@ -21,7 +21,7 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Menu>
-            <MenuItem Header="Спортсмены" Command=""/>
+            <MenuItem Header="Тренировки" Command=""/>
         </Menu>
 
         <ListView Grid.Row="1" ItemsSource="{Binding Workouts}" SelectedItem="{Binding SelectedWorkout}">
@@ -61,10 +61,11 @@
             <Label Content="Длительность тренировки в минутах"/>
             <TextBox Text="{Binding SelectedWorkout.Duration}" Width="50" HorizontalAlignment="Left" Margin="3 0 0 0"/>
             <Label Content="Тип тренировки"/>
-            <ComboBox ItemsSource="{Binding Types}" SelectedItem="{Binding SelectedWorkout.Type}"/>
+            <ComboBox ItemsSource="{Binding Types}" SelectedItem="{Binding SelectedWorkout.Type}" DisplayMemberPath="Title"/>
             <Button Content="Добавить" Command="{Binding Add}"/>
+            <Button Content="Сохранить" Command="{Binding Update}"/>
             <Button Content="Удалить" Command="{Binding Delete}"/>
-            
+            <Button Content="Запегистрировать нового спортсмена" Command="{Binding Registr}"/>
             
         </StackPanel>
 

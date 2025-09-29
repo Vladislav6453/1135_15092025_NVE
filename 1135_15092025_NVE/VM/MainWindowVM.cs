@@ -1,5 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using System.Reflection;
 using _1135_15092025_NVE.Model;
+using _1135_15092025_NVE.View;
 using _1135_15092025_NVE.VMTools;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
@@ -8,17 +10,20 @@ namespace _1135_15092025_NVE.VM
     internal class MainWindowVM : BaseVM
     {
         private ObservableCollection<Workout> workouts = new();
+        private ObservableCollection<WorkoutType> types = new();
         private List<Athlete> athletes;
         private List<AthleteWorkout> cross;
         private Workout selectedWorkout;
+        private MainWindow mainWindow;
+
         public Workout SelectedWorkout
         {
             get => selectedWorkout;
             set
             {
                 selectedWorkout = value;
-                if (value != null && Types.Contains(selectedWorkout.Type))
-                    selectedWorkout.Type = Types.First(name => name == selectedWorkout.Type);
+                if (value != null )
+                    selectedWorkout.Type = Types.FirstOrDefault(name => name == selectedWorkout.Type);
                 Signal();
             }
         }
@@ -52,37 +57,39 @@ namespace _1135_15092025_NVE.VM
             }
         }
 
-        //public TimeOnly SelectedWorkoutTime
-        //{
-        //    get => SelectedWorkout != null ? new TimeOnly(SelectedWorkout.DateTime.Hour, SelectedWorkout.DateTime.Second) : new();
-        //    set
-        //    {
-        //        if (SelectedWorkout != null)
-        //        {
-        //            SelectedWorkout.DateTime = new DateTime(SelectedWorkout.DateTime.Year, SelectedWorkout.DateTime.Month,
-        //                SelectedWorkout.DateTime.Day, value.Hour, value.Minute, value.Second);
-        //        }
-        //    }
-        //}
+        public ObservableCollection<WorkoutType> Types
+        {
+            get => types;
+            set
+            {
+                types = value;
+                Signal();
+            }
+        }
+
         public int Hours
         {
-            get => SelectedWorkout != null ? SelectedWorkout.DateTime.Hour : 0;
-            set => SelectedWorkout.DateTime.AddHours(value - SelectedWorkout.DateTime.Hour);
+            get => SelectedWorkout.DateTime.Hour;
+            set => SelectedWorkout.DateTime= SelectedWorkout.DateTime.AddHours(value);
         }
         public int Minutes
         {
-            get => SelectedWorkout != null ? SelectedWorkout.DateTime.Minute : 0;
-            set => SelectedWorkout.DateTime.AddMinutes(value - SelectedWorkout.DateTime.Minute);
+            get => SelectedWorkout.DateTime.Minute;
+            set => SelectedWorkout.DateTime=SelectedWorkout.DateTime.AddMinutes(value);
         }
-
-        public string[] Types { get; set; } = ["Кардио", "Силовая", "Техническая"];
+        
+     
 
         public CommandVM Delete { get; set; }
+        public CommandVM Update { get; set; }
         public CommandVM Add { get; set; }
         public CommandVM Clear { get; set; }
-        public MainWindowVM()
+        public CommandVM Registr { get; set; }
+        public MainWindowVM() 
         {
+            
             var db = new SportWorkoutContext();
+            Types = new ObservableCollection<WorkoutType>(db.WorkoutTypes.ToList());
             Workouts = new ObservableCollection<Workout>(db.Workouts.ToList());
             SelectedWorkout = new();
 
@@ -101,9 +108,33 @@ namespace _1135_15092025_NVE.VM
             }, () => !string.IsNullOrWhiteSpace(SelectedWorkout.Title) &&
             SelectedWorkout.Duration > 0 &&
             SelectedWorkout.DateTime.Year > 2000 &&
-            !string.IsNullOrEmpty(SelectedWorkout.Type));
+            SelectedWorkout.Type != null);
+
+            Update = new CommandVM(() =>
+            {
+                if (!Workouts.Contains(SelectedWorkout))
+                    db.SaveChanges();
+            }, () => !string.IsNullOrWhiteSpace(SelectedWorkout.Title) &&
+            SelectedWorkout.Duration > 0 &&
+            SelectedWorkout.DateTime.Year > 2000 &&
+            SelectedWorkout.Type != null);
+
+            Registr = new CommandVM(() =>
+            {
+                Registration reg = new Registration();
+                mainWindow.Close();
+                reg.ShowDialog();
+                
+
+            }, () => true);
 
             Clear = new CommandVM(ClearSelected, () => true);
+           
+        }
+
+        public void SetWindow(MainWindow window)
+        {
+            mainWindow = window;
         }
 
         private void ClearSelected()

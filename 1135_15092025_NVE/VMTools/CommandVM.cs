@@ -9,7 +9,11 @@ namespace _1135_15092025_NVE.VMTools
 {
     public class CommandVM : ICommand
     {
-        public event EventHandler? CanExecuteChanged;
+        public event EventHandler? CanExecuteChanged
+        {
+            add { CommandManager.RequerySuggested += value; }
+            remove { CommandManager.RequerySuggested -= value; }
+        }
 
         Action action;
         Func<bool> canExecute;
