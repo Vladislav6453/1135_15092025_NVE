@@ -13,10 +13,12 @@ namespace _1135_15092025_NVE.VM
 {
     internal class RegistrationVM : BaseVM
     {
-        private ObservableCollection<LevelOfTrainig> levels = new();
-        private ObservableCollection<AthletesCategory> types = new();
+        private List<LevelOfTrainig> levels = new();
+        private List<AthletesCategory> types = new();
+        private ObservableCollection<Athlete> athletes = new();
+        private Athlete newAthlete;
         private Registration registration;
-        public ObservableCollection<AthletesCategory> Types
+        public List<AthletesCategory> Types
         {
             get => types;
             set
@@ -25,8 +27,8 @@ namespace _1135_15092025_NVE.VM
                 Signal();
             }
         }
-
-        public ObservableCollection<LevelOfTrainig> Levels
+        
+        public List<LevelOfTrainig> Levels
         {
             get => levels;
             set
@@ -36,6 +38,40 @@ namespace _1135_15092025_NVE.VM
             }
         }
 
+        public ObservableCollection<Athlete> Athletes
+        {
+            get => athletes;
+            set
+            {
+                athletes = value;
+                Signal();
+            }
+        }
 
+        public Athlete NewAthlete
+        {
+            get => newAthlete;
+            set
+            {
+                newAthlete = value;
+                Signal();
+            }
+        }
+
+        public CommandVM Registr { get; set; }
+
+        public RegistrationVM()
+        {
+            var db = new SportWorkoutContext();
+            Registr = new CommandVM(() =>
+            {
+                Athletes.Add(NewAthlete);
+                NewAthlete.Name = string.Empty;
+                NewAthlete.LastName = string.Empty;
+                NewAthlete.Birthday = DateOnly.;
+                NewAthlete.Category = null;
+                NewAthlete.Level = null;
+            },());
+        }
     }
 }
