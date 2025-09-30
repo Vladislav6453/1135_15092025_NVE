@@ -65,7 +65,8 @@
             <Button Content="Добавить" Command="{Binding Add}"/>
             <Button Content="Сохранить" Command="{Binding Update}"/>
             <Button Content="Удалить" Command="{Binding Delete}"/>
-            <Button Content="Запегистрировать нового спортсмена" Command="{Binding Registr}"/>
+            <Button Content="Запегистрировать нового спортсмена" Command="{Binding Registr}" Margin="0 70 0 0"/>
+            <Button Content="Записать спортсмена на тренировку" Command="{Binding Zapis}" />
             
         </StackPanel>
 

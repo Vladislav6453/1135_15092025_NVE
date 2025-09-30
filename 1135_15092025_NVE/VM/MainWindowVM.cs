@@ -85,6 +85,7 @@ namespace _1135_15092025_NVE.VM
         public CommandVM Add { get; set; }
         public CommandVM Clear { get; set; }
         public CommandVM Registr { get; set; }
+        public CommandVM Zapis { get; set; }
         public MainWindowVM() 
         {
             
@@ -125,6 +126,15 @@ namespace _1135_15092025_NVE.VM
                 mainWindow.Close();
                 reg.ShowDialog();
                 
+
+            }, () => true);
+
+            Zapis = new CommandVM(() =>
+            {
+                Registration reg = new Registration();
+                mainWindow.Close();
+                reg.ShowDialog();
+
 
             }, () => true);
 

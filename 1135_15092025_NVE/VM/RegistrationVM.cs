@@ -68,10 +68,18 @@ namespace _1135_15092025_NVE.VM
                 Athletes.Add(NewAthlete);
                 NewAthlete.Name = string.Empty;
                 NewAthlete.LastName = string.Empty;
-                NewAthlete.Birthday = DateOnly.;
+                NewAthlete.Birthday = null;
                 NewAthlete.Category = null;
                 NewAthlete.Level = null;
-            },());
+            },() => !string.IsNullOrWhiteSpace(NewAthlete.Name) &&
+            NewAthlete.Birthday != null &&
+            NewAthlete.Level != null &&
+            NewAthlete.Category != null);
+        }
+
+        public void SetWindow(Registration window)
+        {
+            registration = window;
         }
     }
 }
