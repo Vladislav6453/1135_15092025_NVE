@@ -21,6 +21,12 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -39,19 +45,17 @@
         <DatePicker Grid.Row="3" Grid.Column="1" Text="{Binding Athlete.Birthday}" Height="25" Margin="0,0,0,5"/>
 
         <TextBlock Grid.Row="4" Grid.Column="0" Text="Категория:" VerticalAlignment="Center" Margin="0,0,10,5" FontSize="18"/>
-        <ComboBox Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Types}" SelectedItem="{Binding Athlete.Category}" DisplayMemberPath="Title" Height="25" Margin="0,0,0,5">
-            <ComboBoxItem Content="Юниор"/>
-            <ComboBoxItem Content="Взрослый"/>
-            <ComboBoxItem Content="Мастер"/>
-        </ComboBox>
+        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Athlete.Category}"  Height="25" Margin="0,0,0,5">
+            
+        </TextBox>
 
         <TextBlock Grid.Row="5" Grid.Column="0" Text="Уровень подготовки:" VerticalAlignment="Center" Margin="0,0,10,5" FontSize="18"/>
-        <ComboBox Grid.Row="5" Grid.Column="1" ItemsSource="{Binding Levels}" SelectedItem="{Binding Athlete.Level}" DisplayMemberPath="Title" Height="25" Margin="0,0,0,5">
-            <ComboBoxItem Content="Новичок"/>
-            <ComboBoxItem Content="Средний"/>
-            <ComboBoxItem Content="Продвинутый"/>
-        </ComboBox>
+        <TextBox Grid.Row="5" Grid.Column="1" Text="{Binding Athlete.Level}" Height="25" Margin="0,0,0,5"/>
 
-        <Button Grid.ColumnSpan="2" Grid.Row="6" Content="Зарегистрировать" Width="120" Margin="0,190,10,0" FontSize="18" Command="{Binding Registr}"/>
+
+        
+        <Button Grid.ColumnSpan="2" Grid.Row="8" Content="Зарегистрировать" Width="240"  FontSize="18" Command="{Binding Registrat}"/>
+        <Button Grid.ColumnSpan="2" Grid.Row="9" Content="Записаться на тренировку" Width="240"  FontSize="18" Command="{Binding Zapis}"/>
+        <Button Grid.ColumnSpan="2" Grid.Row="10" Content="Просмотр тренировок" Width="240"  FontSize="18" Command="{Binding Trenir}"/>
     </Grid>
 </Window>

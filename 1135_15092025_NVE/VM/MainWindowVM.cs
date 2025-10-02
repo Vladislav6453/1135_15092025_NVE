@@ -123,15 +123,15 @@ namespace _1135_15092025_NVE.VM
             Registr = new CommandVM(() =>
             {
                 Registration reg = new Registration();
-                mainWindow.Close();
                 reg.ShowDialog();
+                mainWindow.Close();
                 
 
             }, () => true);
 
             Zapis = new CommandVM(() =>
             {
-                Registration reg = new Registration();
+                ZapisAthlete reg = new ZapisAthlete();
                 mainWindow.Close();
                 reg.ShowDialog();
 

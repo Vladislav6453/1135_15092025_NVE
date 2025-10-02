@@ -13,30 +13,10 @@ namespace _1135_15092025_NVE.VM
 {
     internal class RegistrationVM : BaseVM
     {
-        private List<LevelOfTrainig> levels = new();
-        private List<AthletesCategory> types = new();
+
         private ObservableCollection<Athlete> athletes = new();
         private Athlete newAthlete;
         private Registration registration;
-        public List<AthletesCategory> Types
-        {
-            get => types;
-            set
-            {
-                types = value;
-                Signal();
-            }
-        }
-        
-        public List<LevelOfTrainig> Levels
-        {
-            get => levels;
-            set
-            {
-                levels = value;
-                Signal();
-            }
-        }
 
         public ObservableCollection<Athlete> Athletes
         {
@@ -59,6 +39,8 @@ namespace _1135_15092025_NVE.VM
         }
 
         public CommandVM Registr { get; set; }
+        public CommandVM Zapis { get; set; }
+        public CommandVM Trenir { get; set; }
 
         public RegistrationVM()
         {
@@ -69,13 +51,33 @@ namespace _1135_15092025_NVE.VM
                 NewAthlete.Name = string.Empty;
                 NewAthlete.LastName = string.Empty;
                 NewAthlete.Birthday = null;
-                NewAthlete.Category = null;
-                NewAthlete.Level = null;
+                NewAthlete.Category.Title = string.Empty;
+                NewAthlete.Level.Title = string.Empty;
             },() => !string.IsNullOrWhiteSpace(NewAthlete.Name) &&
             NewAthlete.Birthday != null &&
-            NewAthlete.Level != null &&
-            NewAthlete.Category != null);
+            NewAthlete.Level.Title != null &&
+            NewAthlete.Category.Title != null);
+
+            Zapis = new CommandVM(() =>
+            {
+                ZapisAthlete reg = new ZapisAthlete();
+                registration.Close();
+                reg.ShowDialog();
+
+
+            }, () => true);
+
+            Trenir = new CommandVM(() =>
+            {
+                MainWindow main = new MainWindow();
+                registration.Close();
+                main.ShowDialog();
+
+ 
+            }, () => true);
         }
+
+        
 
         public void SetWindow(Registration window)
         {
