@@ -60,9 +60,9 @@ namespace _1135_15092025_NVE.VM
 
             Zapis = new CommandVM(() =>
             {
-                ZapisAthlete reg = new ZapisAthlete();
+                ZapisAthlete zap = new ZapisAthlete();
                 registration.Close();
-                reg.ShowDialog();
+                zap.ShowDialog();
 
 
             }, () => true);

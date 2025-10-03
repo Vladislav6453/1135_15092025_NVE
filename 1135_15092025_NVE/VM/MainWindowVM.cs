@@ -88,7 +88,10 @@ namespace _1135_15092025_NVE.VM
         public CommandVM Zapis { get; set; }
         public MainWindowVM() 
         {
-            
+
+
+            testST.getST.WorkoutsFROM_mainWINDOW = Workouts;
+
             var db = new SportWorkoutContext();
             Types = new ObservableCollection<WorkoutType>(db.WorkoutTypes.ToList());
             Workouts = new ObservableCollection<Workout>(db.Workouts.ToList());

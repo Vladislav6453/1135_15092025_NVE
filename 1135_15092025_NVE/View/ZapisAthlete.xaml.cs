@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _1135_15092025_NVE.VM;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,8 @@ namespace _1135_15092025_NVE.View
         public ZapisAthlete()
         {
             InitializeComponent();
+            ((ZapisAthleteVM)DataContext).SetWindow(this);
+            
         }
     }
 }
