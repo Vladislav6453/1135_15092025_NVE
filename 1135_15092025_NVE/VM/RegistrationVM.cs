@@ -48,12 +48,14 @@ namespace _1135_15092025_NVE.VM
             NewAthlete = new Athlete();
             Registrat = new CommandVM(() =>
             {
+
                 Athletes.Add(NewAthlete);
                 NewAthlete.Name = string.Empty;
                 NewAthlete.LastName = string.Empty;
                 NewAthlete.Birthday = null;
                 NewAthlete.Category.Title = string.Empty;
                 NewAthlete.LevelOfTraining.Title = string.Empty;
+                db.SaveChanges();
             },() => !string.IsNullOrEmpty(NewAthlete.Name) &&
             !string.IsNullOrEmpty(NewAthlete.LastName) &&
             NewAthlete.Birthday != null &&
