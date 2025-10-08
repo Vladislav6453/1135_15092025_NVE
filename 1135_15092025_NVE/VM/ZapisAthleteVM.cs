@@ -1,6 +1,7 @@
 ﻿using _1135_15092025_NVE.Model;
 using _1135_15092025_NVE.View;
 using _1135_15092025_NVE.VMTools;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -88,18 +89,28 @@ namespace _1135_15092025_NVE.VM
         public ZapisAthleteVM()
         {
             var db = new SportWorkoutContext();
-            //Workouts = new ObservableCollection<Workout>(db.Workouts.ToList());
-            Workouts = testST.getST.WorkoutsFROM_mainWINDOW;
+            
+            Workouts = new ObservableCollection<Workout>(db.Workouts.ToList());
+            //Workouts = testST.getST.WorkoutsFROM_mainWINDOW;
             Athletes = new ObservableCollection<Athlete>(db.Athletes.ToList());
-            AthleteWorkouts = new ObservableCollection<AthleteWorkout>(db.AthleteWorkouts.ToList());
+            AthleteWorkouts = new ObservableCollection<AthleteWorkout>(db.AthleteWorkouts.Include("Athlete").ToList());
             SelectedAthleteWorkout = new();
 
             Connecting = new CommandVM(() =>
             {
+                SelectedAthleteWorkout.AthleteId = SelectedAthlete.Id;
+                SelectedAthleteWorkout.WorkoutId = SelectedWorkout.Id;
                 if (!AthleteWorkouts.Contains(SelectedAthleteWorkout))
-                    Workouts.Add(SelectedWorkout);
+                {
+                    AthleteWorkouts.Add(SelectedAthleteWorkout);
+                    db.Entry(SelectedAthleteWorkout).State = EntityState.Added;
+                }
+                else
+                    db.Entry(SelectedAthleteWorkout).State = EntityState.Modified;
+                    
 
                 db.SaveChanges();
+                //AthleteWorkouts = new ObservableCollection<AthleteWorkout>(db.AthleteWorkouts.Include("Athlete").ToList());
             }, () => SelectedWorkout != null && 
             SelectedAthlete != null);
 

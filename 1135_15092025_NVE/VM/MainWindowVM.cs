@@ -126,7 +126,7 @@ namespace _1135_15092025_NVE.VM
             Registr = new CommandVM(() =>
             {
                 Registration reg = new Registration();
-                reg.ShowDialog();
+                reg.ShowDialog(); 
                 mainWindow.Close();
                 
 

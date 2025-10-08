@@ -22,7 +22,7 @@ public partial class SportWorkoutContext : DbContext
 
     public virtual DbSet<AthletesCategory> AthletesCategories { get; set; }
 
-    public virtual DbSet<LevelOfTrainig> LevelOfTrainigs { get; set; }
+    public virtual DbSet<LevelOfTraining> LevelOfTrainings { get; set; }
 
     public virtual DbSet<Workout> Workouts { get; set; }
 
@@ -44,7 +44,7 @@ public partial class SportWorkoutContext : DbContext
 
             entity.HasIndex(e => e.CategoryId, "FK_Athletes_Athletes_Category_id");
 
-            entity.HasIndex(e => e.LevelId, "FK_Athletes_LevelOfTrainig_id");
+            entity.HasIndex(e => e.LevelOfTrainingId, "FK_Athletes_LevelOfTraining_id");
 
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
@@ -53,9 +53,9 @@ public partial class SportWorkoutContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("Category_id");
             entity.Property(e => e.LastName).HasMaxLength(255);
-            entity.Property(e => e.LevelId)
+            entity.Property(e => e.LevelOfTrainingId)
                 .HasColumnType("int(11)")
-                .HasColumnName("Level_id");
+                .HasColumnName("LevelOfTraining_id");
             entity.Property(e => e.Name).HasMaxLength(50);
 
             entity.HasOne(d => d.Category).WithMany(p => p.Athletes)
@@ -63,10 +63,10 @@ public partial class SportWorkoutContext : DbContext
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Athletes_Athletes_Category_id");
 
-            entity.HasOne(d => d.Level).WithMany(p => p.Athletes)
-                .HasForeignKey(d => d.LevelId)
+            entity.HasOne(d => d.LevelOfTraining).WithMany(p => p.Athletes)
+                .HasForeignKey(d => d.LevelOfTrainingId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_Athletes_LevelOfTrainig_id");
+                .HasConstraintName("FK_Athletes_LevelOfTraining_id");
         });
 
         modelBuilder.Entity<AthleteWorkout>(entity =>
@@ -109,20 +109,18 @@ public partial class SportWorkoutContext : DbContext
             entity.ToTable("Athletes_Category");
 
             entity.Property(e => e.Id)
-                .ValueGeneratedNever()
                 .HasColumnType("int(11)")
                 .HasColumnName("id");
             entity.Property(e => e.Title).HasMaxLength(255);
         });
 
-        modelBuilder.Entity<LevelOfTrainig>(entity =>
+        modelBuilder.Entity<LevelOfTraining>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("LevelOfTrainig");
+            entity.ToTable("LevelOfTraining");
 
             entity.Property(e => e.Id)
-                .ValueGeneratedNever()
                 .HasColumnType("int(11)")
                 .HasColumnName("id");
             entity.Property(e => e.Title).HasMaxLength(255);

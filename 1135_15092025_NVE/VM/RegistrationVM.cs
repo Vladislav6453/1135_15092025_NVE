@@ -38,24 +38,26 @@ namespace _1135_15092025_NVE.VM
             }
         }
 
-        public CommandVM Registr { get; set; }
+        public CommandVM Registrat { get; set; }
         public CommandVM Zapis { get; set; }
         public CommandVM Trenir { get; set; }
 
         public RegistrationVM()
         {
             var db = new SportWorkoutContext();
-            Registr = new CommandVM(() =>
+            NewAthlete = new Athlete();
+            Registrat = new CommandVM(() =>
             {
                 Athletes.Add(NewAthlete);
                 NewAthlete.Name = string.Empty;
                 NewAthlete.LastName = string.Empty;
                 NewAthlete.Birthday = null;
                 NewAthlete.Category.Title = string.Empty;
-                NewAthlete.Level.Title = string.Empty;
-            },() => !string.IsNullOrWhiteSpace(NewAthlete.Name) &&
+                NewAthlete.LevelOfTraining.Title = string.Empty;
+            },() => !string.IsNullOrEmpty(NewAthlete.Name) &&
+            !string.IsNullOrEmpty(NewAthlete.LastName) &&
             NewAthlete.Birthday != null &&
-            NewAthlete.Level.Title != null &&
+            NewAthlete.LevelOfTraining.Title != null &&
             NewAthlete.Category.Title != null);
 
             Zapis = new CommandVM(() =>

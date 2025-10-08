@@ -15,11 +15,11 @@ public partial class Athlete
 
     public int CategoryId { get; set; }
 
-    public int LevelId { get; set; }
+    public int LevelOfTrainingId { get; set; }
 
     public virtual ICollection<AthleteWorkout> AthleteWorkouts { get; set; } = new List<AthleteWorkout>();
 
     public virtual AthletesCategory Category { get; set; } = null!;
 
-    public virtual LevelOfTrainig Level { get; set; } = null!;
+    public virtual LevelOfTraining LevelOfTraining { get; set; } = null!;
 }
