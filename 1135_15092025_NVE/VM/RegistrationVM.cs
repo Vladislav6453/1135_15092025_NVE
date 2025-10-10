@@ -14,11 +14,11 @@ namespace _1135_15092025_NVE.VM
     internal class RegistrationVM : BaseVM
     {
 
-        private ObservableCollection<Athlete> athletes = new();
+        private List<Athlete> athletes;
         private Athlete newAthlete;
         private Registration registration;
 
-        public ObservableCollection<Athlete> Athletes
+        public List<Athlete> Athletes
         {
             get => athletes;
             set
@@ -37,6 +37,22 @@ namespace _1135_15092025_NVE.VM
                 Signal();
             }
         }
+        public DateTime Birthday 
+        { 
+            get 
+            {
+                if (NewAthlete != null && NewAthlete.Birthday.HasValue)
+                    return NewAthlete.Birthday.Value.ToDateTime(new TimeOnly());
+                return new DateTime();
+            }
+            set 
+            {
+                NewAthlete.Birthday = DateOnly.FromDateTime(value);
+            }
+        }
+
+        public List<LevelOfTraining> Levels { get; set; }
+        public List<AthletesCategory> Categories { get; set; }
 
         public CommandVM Registrat { get; set; }
         public CommandVM Zapis { get; set; }
@@ -45,22 +61,22 @@ namespace _1135_15092025_NVE.VM
         public RegistrationVM()
         {
             var db = new SportWorkoutContext();
+            Athletes = db.Athletes.ToList();
+            Levels = db.LevelOfTrainings.ToList();
+            Categories = db.AthletesCategories.ToList();
             NewAthlete = new Athlete();
             Registrat = new CommandVM(() =>
             {
 
-                Athletes.Add(NewAthlete);
-                NewAthlete.Name = string.Empty;
-                NewAthlete.LastName = string.Empty;
-                NewAthlete.Birthday = null;
-                NewAthlete.Category.Title = string.Empty;
-                NewAthlete.LevelOfTraining.Title = string.Empty;
+                RegistrateNewAthlete();
+                db.Entry(NewAthlete).State = Microsoft.EntityFrameworkCore.EntityState.Added;
                 db.SaveChanges();
+                NewAthlete = new Athlete();
             },() => !string.IsNullOrEmpty(NewAthlete.Name) &&
             !string.IsNullOrEmpty(NewAthlete.LastName) &&
             NewAthlete.Birthday != null &&
-            NewAthlete.LevelOfTraining.Title != null &&
-            NewAthlete.Category.Title != null);
+            NewAthlete.LevelOfTraining != null &&
+            NewAthlete.Category != null);
 
             Zapis = new CommandVM(() =>
             {
@@ -81,7 +97,13 @@ namespace _1135_15092025_NVE.VM
             }, () => true);
         }
 
-        
+
+        public void RegistrateNewAthlete()
+        {
+            Athletes.Add(NewAthlete);
+            
+
+        }
 
         public void SetWindow(Registration window)
         {

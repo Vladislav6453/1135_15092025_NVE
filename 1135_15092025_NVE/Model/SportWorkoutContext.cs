@@ -105,7 +105,7 @@ public partial class SportWorkoutContext : DbContext
         modelBuilder.Entity<AthletesCategory>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
-
+            
             entity.ToTable("Athletes_Category");
 
             entity.Property(e => e.Id)
